@@ -5,6 +5,7 @@ import android.net.Uri
 import android.widget.Toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.lang.NullPointerException
 
 class AndroidIdProvider(
     private val context: Context
@@ -22,7 +23,11 @@ class AndroidIdProvider(
                     Toast.makeText(context, "Android ID not found", Toast.LENGTH_SHORT).show()
                     -1
                 } else {
-                    cursor.getString(1).toLong()
+                    try {
+                        cursor.getString(1).toLong()
+                    } catch (e: NullPointerException) {
+                        -1
+                    }
                 }
             }
         }
